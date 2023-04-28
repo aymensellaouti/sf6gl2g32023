@@ -11,9 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FirstController extends AbstractController
 {
-    #[Route('/first/{section}', name: 'app_first')]
+    #[Route(
+        '/first/{section<[0-1]?\d{1,2}>}',
+        name: 'app_first',
+//        requirements: ['section' => '[0-1]?\d{1,2}'],
+        defaults: ['section' => 'GL2G3']
+    )]
     public function index($section, Request $request, SessionInterface $session): Response
     {
+
+
         if($session->has('nbVisite')) {
             $nbVisite = $session->get('nbVisite');
             $nbVisite++;
@@ -30,5 +37,10 @@ class FirstController extends AbstractController
             'message' => $premierService->sayHello($section),
             'welcomingMessage' => $welcomingMessage
         ]);
+    }
+
+    #[Route('hello')]
+    public function hello() {
+        return new Response('<h1>Hello</h1>');
     }
 }

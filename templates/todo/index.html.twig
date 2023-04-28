@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Liste des Todos {% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Content</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for todoName, todoContent in app.session.get('todos') %}
+            <tr class="
+                {% if loop.index is odd  %}
+                    table-warning
+                {% else %}
+                    table-danger
+                {% endif %}
+            ">
+                <td>{{ todoName }}</td>
+                <td>{{ todoContent }}</td>
+                <td><a href="{{ path('app_delete_todo', {name: todoName}) }}" class="button button-danger">X</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2"> Il n'existe plus de Todo </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
